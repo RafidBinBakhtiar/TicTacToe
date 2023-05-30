@@ -1,0 +1,142 @@
+dash_list = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]
+
+# if true it return X, otherwise returns O
+def board(dash_list):
+    for elem in dash_list:
+        for j in elem:
+            print(j, end=" ")
+        print()
+
+
+def validinp(user1_inp):
+    if not user1_inp.isnumeric(): return False
+    if int(user1_inp) in range(1, 10):
+        return True
+    else:
+        return False
+
+def check_win(active, dash_list):
+    if checkrow(active,dash_list):
+        return True
+    if checkcol(active,dash_list):
+        return True
+    if checkdiag(active, dash_list):
+        return True
+    return False
+
+
+def checkrow(active, dash_list):
+    for row in dash_list:
+        row_completed = True
+        for elem in row:
+            if elem != active:
+                row_completed = False
+                break
+        if row_completed == True:
+            return True
+    return False
+
+def checkcol(active, dash_list):
+    for col in range(3):
+        col_completed = True
+        for row in range(3):
+            if dash_list[row][col] != active:
+                col_completed = False
+                break
+        if col_completed: return True
+    return False
+
+def checkdiag(active, dash_list):
+    if dash_list[0][0] == active and dash_list[1][1] == active and dash_list[2][2] == active:
+        return True
+    elif dash_list[0][2] == active and dash_list[1][1] == active and dash_list[2][0] == active:
+        return True
+    else:
+        return False
+
+
+
+def istaken(coord, dash_list=dash_list):
+    row = coord[0]
+    col = coord[1]
+    if dash_list[row][col] != "-":
+        return True
+    else:
+        return False
+
+
+def add(dash_list, coord, var):
+    row = coord[0]
+    col = coord[1]
+    if istaken(coord) is False:
+        dash_list[row][col] = var
+
+        return board(dash_list)
+    else:
+        return f"Place already taken! "
+
+def coordinates(user1_inp):
+    row = user1_inp // 3
+    col = user1_inp % 3
+    return (int(row), int(col))
+
+def curr_user(turn):
+  if turn: return "X"
+  else: return "O"
+
+def turned(turn):
+    if turn == True:
+        return False
+    else:
+        return True
+
+
+
+turn = True
+count = 0
+while count < 9:
+    active_user = curr_user(turn)
+    if turn == True:
+        print("X's Chance: ")
+        user1_inp = input("Press Q/q to QUIT or 1-9 to play: ")
+        if user1_inp.lower() == "q":
+            print("*Thanks for playing!!*")
+            break
+        if not validinp(user1_inp):
+            print("Please enter a valid input between 1-9")
+        coord = coordinates(int(user1_inp) - 1)
+        if istaken(coord):
+            print("Place Taken")
+        else:
+            add(dash_list, coord, active_user)
+            if check_win(active_user,dash_list):
+                print("'X' won!")
+                break
+
+        count += 1
+        if count == 9:
+            print("Tie! ")
+
+        turn = not turn
+    else:
+        print("O's Chance: ")
+        user1_inp = input("Press Q/q to QUIT or 1-9 to play: ")
+        if user1_inp.lower() == "q":
+            print("*Thanks for playing!!*")
+            break
+        if not validinp(user1_inp):
+            print("Please enter a valid input between 1-9")
+        coord = coordinates(int(user1_inp) - 1)
+        if istaken(coord):
+            print("Place Taken")
+        else:
+            add(dash_list, coord, active_user)
+            if check_win(active_user,dash_list):
+                print("'O' won!")
+                break
+
+        count += 1
+        if count == 9:
+            print("Tie! ")
+
+        turn = not turn
