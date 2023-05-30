@@ -1,3 +1,19 @@
+'''
+Tic Tac Toe
+board 9*9
+- - -
+- - -
+- - -
+Conditions:
+    user 1 and user 2
+    input validity
+        input should not be an character and should be in between 1-9
+    we need to check whether the input is already filled in or not
+    add to board
+Win Condition
+    check horizontal, vertical and diagonal
+'''
+
 dash_list = [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]
 
 # if true it return X, otherwise returns O
@@ -83,14 +99,17 @@ def coordinates(user1_inp):
 def curr_user(turn):
   if turn: return "X"
   else: return "O"
-
+'''
 def turned(turn):
     if turn == True:
         return False
     else:
         return True
-
-
+This function is the replacement of toggling between the users, to remove complexity I have wrote
+"turn = not turn" and added that boolean value into the function "curr_user"
+'''
+#=================================================================
+# main code starts from here:
 
 turn = True
 count = 0
